@@ -1,0 +1,18 @@
+# TinyStories + BPE 4096。実数 FFN のベースライン(3 構成で FFN 以外は同一)
+dataset: tinystories
+vocab_size: 4096
+out_dir: runs/tinystories_fp
+batch_size: 32
+max_steps: 20000
+eval_every: 1000
+eval_batches: 50
+lr: 1.0e-3
+lut_lr: 1.0e-2
+warmup_steps: 500
+resume: true
+model:
+  block_size: 256
+  n_layer: 6
+  n_head: 8
+  d_model: 256
+  ffn: fp

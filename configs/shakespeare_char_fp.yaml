@@ -1,0 +1,13 @@
+# 実数 FFN のベースライン(Tiny Shakespeare 文字単位)
+dataset: tiny_shakespeare
+out_dir: runs/shakespeare_char_fp
+batch_size: 64
+max_steps: 15000
+eval_every: 500
+lr: 1.0e-3
+model:
+  block_size: 64
+  n_layer: 4
+  n_head: 4
+  d_model: 128
+  ffn: fp

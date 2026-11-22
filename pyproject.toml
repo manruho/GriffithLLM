@@ -1,0 +1,47 @@
+[project]
+name = "griffith-llm"
+version = "0.1.0"
+description = "Hybrid language model: float attention + logic-gate (LUT) FFN built on Griffith"
+readme = "README.md"
+requires-python = ">=3.11,<3.15"
+dependencies = [
+    "griffith-logic",
+    "numpy",
+    "pyyaml",
+    "tokenizers>=0.20",
+    "torch>=2.8.0",
+]
+
+[project.optional-dependencies]
+# Linux で CUDA なしの軽量 torch を使う場合: uv sync --extra cpu
+cpu = ["torch>=2.8.0"]
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["griffith_llm"]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+# griffith-logic は PyPI 未公開のためコミット固定で取得する
+griffith-logic = { git = "https://github.com/tsukushi-gate/Griffith", rev = "e0675f4e36596954aa424d522e0ee966bba9a3e1" }
+torch = [{ index = "pytorch-cpu", extra = "cpu" }]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

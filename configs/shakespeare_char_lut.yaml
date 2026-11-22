@@ -1,0 +1,21 @@
+# FFN を論理ゲート(LUT2 softmax + ReZero)に置き換えた版
+dataset: tiny_shakespeare
+out_dir: runs/shakespeare_char_lut
+batch_size: 64
+max_steps: 15000
+eval_every: 500
+lr: 1.0e-3
+lut_lr: 1.0e-2
+model:
+  block_size: 64
+  n_layer: 4
+  n_head: 4
+  d_model: 128
+  ffn: lut
+  lut_n_inputs: 2
+  lut_depth: 2
+  lut_parameterization: softmax
+  # 学習時も argmax で 1 ゲートに確定させる(soft のままだと離散化後に ppl が大きく悪化する)
+  lut_selection: hard_st
+  lut_readout: groupsum
+  rezero: true
